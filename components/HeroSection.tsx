@@ -70,11 +70,11 @@ const HeroSection = () => {
           transition={{ delay: 0.5, duration: 1 }}
           className="min-h-[90px] flex items-center justify-center mb-8"
         >
-          <div className="relative">
+          <div className="relative w-full h-[90px] flex items-center justify-center">
             {rotatingTexts.map((text, index) => (
               <motion.span
                 key={index}
-                className="absolute inset-0 text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90 text-center"
+                className="absolute text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90 text-center px-4"
                 animate={{
                   opacity: [0, 1, 1, 0],
                   y: [30, 0, 0, -30],
@@ -109,18 +109,12 @@ const HeroSection = () => {
         >
           <motion.a
             href="#waitlist"
-            className="group relative bg-white text-slate-900 font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-2 border-transparent hover:border-emerald-500 flex items-center gap-3"
+            className="group relative bg-white text-slate-900 font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-2 border-transparent hover:border-emerald-500 flex items-center gap-3 overflow-hidden"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="relative z-10 flex items-center gap-3">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-              </svg>
-              Join the Revolution Today
-            </span>
             <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-emerald-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <span className="relative z-10 group-hover:text-white transition-colors duration-300 flex items-center gap-3">
+            <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors duration-300">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
               </svg>
