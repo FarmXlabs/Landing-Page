@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Lock } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const navItems = [
   { href: '/#features', label: 'Why Us?' },
@@ -16,6 +17,7 @@ const navItems = [
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,12 +27,15 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Always solid on /blog and /login
+  const alwaysSolid = pathname.startsWith('/blog') || pathname.startsWith('/login')
+
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-slate-800/95 backdrop-blur-xl shadow-lg border-b border-slate-700' : 'bg-transparent'
+        isScrolled || alwaysSolid ? 'bg-slate-800/95 backdrop-blur-xl shadow-lg border-b border-slate-700' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto px-6 py-4">
@@ -68,7 +73,7 @@ const Header = () => {
           {/* Login Button */}
           <div className="hidden md:flex items-center">
             <motion.a
-              href="#login"
+              href="/login"
               className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center gap-2 border border-emerald-400/30 hover:border-emerald-300/50"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
