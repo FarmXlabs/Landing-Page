@@ -32,8 +32,12 @@ const EcosystemSection = () => {
   ]
 
   return (
-    <section id="ecosystem" className="py-24 section-pattern">
-      <div className="container mx-auto px-6">
+    <section id="ecosystem" className="py-24 section-pattern relative overflow-hidden">
+      {/* Grainy Texture */}
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+      }}></div>
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -45,7 +49,7 @@ const EcosystemSection = () => {
           <p className="text-slate-600 max-w-3xl mx-auto text-lg">A fully integrated, autonomous platform designed for plug-and-play simplicity and power.</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
+        <div className="grid md:grid-cols-2 gap-10 text-center max-w-6xl mx-auto">
           {ecosystemItems.map((item, index) => (
             <motion.div
               key={index}
@@ -55,11 +59,11 @@ const EcosystemSection = () => {
               viewport={{ once: true }}
               className="group"
             >
-              <div className="p-6 rounded-full inline-block border-4 border-slate-200 mb-4 text-emerald-600 bg-white hover:scale-110 hover:border-emerald-300 transition-all duration-300 shadow-lg group-hover:shadow-xl floating-animation">
-                <item.icon className="w-12 h-12" />
+              <div className="p-6 rounded-full inline-block border-4 border-slate-200 mb-4 text-emerald-600 bg-white hover:scale-110 hover:border-emerald-300 transition-all duration-300 shadow-lg group-hover:shadow-xl floating-animation group-hover:bg-emerald-50">
+                <item.icon className="w-12 h-12 group-hover:scale-110 transition-transform duration-300" />
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-slate-900">{item.title}</h3>
-              <p className="text-slate-600 leading-relaxed">{item.description}</p>
+                              <h3 className="text-2xl font-semibold mb-2 text-slate-900 group-hover:text-emerald-700 transition-colors">{item.title}</h3>
+                <p className="text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors">{item.description}</p>
             </motion.div>
           ))}
         </div>

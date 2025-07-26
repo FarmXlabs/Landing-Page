@@ -28,7 +28,7 @@ const Header = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass-effect shadow-lg border-b border-white/10' : 'bg-transparent'
+        isScrolled ? 'bg-slate-800/95 backdrop-blur-xl shadow-lg border-b border-slate-700' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto px-6 py-4">
@@ -48,7 +48,9 @@ const Header = () => {
               <motion.a
                 key={item.href}
                 href={item.href}
-                className="text-slate-200 hover:text-emerald-300 transition-colors relative group"
+                className={`transition-colors relative group ${
+                  isScrolled ? 'text-slate-300 hover:text-white' : 'text-slate-200 hover:text-emerald-300'
+                }`}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}

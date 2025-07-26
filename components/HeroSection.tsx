@@ -19,6 +19,10 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2832&q=80')] bg-cover bg-center bg-no-repeat opacity-15"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/90"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/30 via-transparent to-emerald-900/30"></div>
+        {/* Grainy Texture */}
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}></div>
       </div>
 
               {/* Animated Background Elements */}
@@ -70,7 +74,7 @@ const HeroSection = () => {
             {rotatingTexts.map((text, index) => (
               <motion.span
                 key={index}
-                className="absolute inset-0 text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90"
+                className="absolute inset-0 text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90 text-center"
                 animate={{
                   opacity: [0, 1, 1, 0],
                   y: [30, 0, 0, -30],
@@ -105,13 +109,23 @@ const HeroSection = () => {
         >
           <motion.a
             href="#waitlist"
-            className="group relative bg-white text-slate-900 font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-2 border-transparent hover:border-emerald-500"
+            className="group relative bg-white text-slate-900 font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-2 border-transparent hover:border-emerald-500 flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="relative z-10">Join the Revolution Today</span>
+            <span className="relative z-10 flex items-center gap-3">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
+              </svg>
+              Join the Revolution Today
+            </span>
             <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-emerald-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <span className="relative z-10 group-hover:text-white transition-colors duration-300">Join the Revolution Today</span>
+            <span className="relative z-10 group-hover:text-white transition-colors duration-300 flex items-center gap-3">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
+              </svg>
+              Join the Revolution Today
+            </span>
           </motion.a>
 
           <motion.button
@@ -126,22 +140,7 @@ const HeroSection = () => {
           </motion.button>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center text-white/60"
-          >
-            <span className="text-sm mb-2">Scroll to explore</span>
-            <ChevronDown className="w-6 h-6" />
-          </motion.div>
-        </motion.div>
+
       </div>
     </section>
   )
