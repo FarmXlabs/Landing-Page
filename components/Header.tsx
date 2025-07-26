@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, User, LogIn } from 'lucide-react'
+import { Menu, X, User } from 'lucide-react'
+import Link from 'next/link'
 
 const navItems = [
-  { href: '#features', label: 'Why Us?' },
-  { href: '#advantage', label: 'The Advantage' },
-  { href: '#ecosystem', label: 'Ecosystem' },
+  { href: '/#features', label: 'Why Us?' },
+  { href: '/#advantage', label: 'The Advantage' },
+  { href: '/#ecosystem', label: 'Ecosystem' },
   { href: '/blog', label: 'Blog' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/#faq', label: 'FAQ' },
 ]
 
 const Header = () => {
@@ -35,12 +36,14 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <motion.h1 
-            className="text-3xl font-bold text-white"
-            whileHover={{ scale: 1.05 }}
-          >
-            FarmX<span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Labs</span>
-          </motion.h1>
+          <Link href="/">
+            <motion.h1 
+              className="text-3xl font-bold text-white cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              FarmX<span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Labs</span>
+            </motion.h1>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 items-center text-lg">
@@ -66,12 +69,13 @@ const Header = () => {
           <div className="hidden md:flex items-center">
             <motion.a
               href="#login"
-              className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center gap-2 border border-emerald-500"
-              whileHover={{ scale: 1.05 }}
+              className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center gap-3 border border-emerald-400/30 hover:border-emerald-300/50"
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              <User className="w-4 h-4" />
-              <LogIn className="w-4 h-4" />
+              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+                <User className="w-3 h-3" />
+              </div>
               <span>Login</span>
             </motion.a>
           </div>
@@ -107,11 +111,12 @@ const Header = () => {
                 ))}
                 <a
                   href="#login"
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all text-center flex items-center justify-center gap-2"
+                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all text-center flex items-center justify-center gap-3 border border-emerald-400/30"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <User className="w-4 h-4" />
-                  <LogIn className="w-4 h-4" />
+                  <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center">
+                    <User className="w-2.5 h-2.5" />
+                  </div>
                   <span>Login</span>
                 </a>
               </nav>
