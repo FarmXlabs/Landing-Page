@@ -15,34 +15,35 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2832&q=80')] bg-cover bg-center bg-no-repeat opacity-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-slate-900/80"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2832&q=80')] bg-cover bg-center bg-no-repeat opacity-15"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/30 via-transparent to-emerald-900/30"></div>
       </div>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-primary-400/20 rounded-full"
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -100, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
-      </div>
+              {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(30)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-emerald-400/30 rounded-full"
+              animate={{
+                x: [0, Math.random() * 200 - 100, 0],
+                y: [0, Math.random() * 200 - 100, 0],
+                opacity: [0, 0.8, 0],
+              }}
+              transition={{
+                duration: Math.random() * 15 + 15,
+                repeat: Infinity,
+                delay: Math.random() * 10,
+              }}
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+            />
+          ))}
+        </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
@@ -53,8 +54,8 @@ const HeroSection = () => {
           className="mb-8"
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
-            <span className="block">The Future of</span>
-            <span className="gradient-text">Autonomous Agriculture</span>
+            <span className="block mb-2">The Future of</span>
+            <span className="gradient-text bg-gradient-to-r from-emerald-400 via-primary-500 to-emerald-600 bg-clip-text text-transparent">Autonomous Agriculture</span>
           </h1>
         </motion.div>
 
@@ -69,7 +70,7 @@ const HeroSection = () => {
             {rotatingTexts.map((text, index) => (
               <motion.span
                 key={index}
-                className="absolute inset-0 text-2xl md:text-4xl lg:text-5xl font-bold text-white/90"
+                className="absolute inset-0 text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90"
                 animate={{
                   opacity: [0, 1, 1, 0],
                   y: [30, 0, 0, -30],
@@ -91,7 +92,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.8 }}
-          className="text-lg md:text-2xl max-w-4xl mx-auto text-slate-300 mb-12 leading-relaxed"
+          className="text-lg md:text-2xl max-w-4xl mx-auto text-slate-200 mb-12 leading-relaxed"
         >
           The world's first truly autonomous agricultural platform. Unlock zero operational cost and maximum yield with the power of AI.
         </motion.p>
@@ -104,7 +105,7 @@ const HeroSection = () => {
         >
           <motion.a
             href="#waitlist"
-            className="group relative bg-white text-primary-600 font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
+            className="group relative bg-white text-slate-900 font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-2 border-transparent hover:border-emerald-500"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -114,11 +115,11 @@ const HeroSection = () => {
           </motion.a>
 
           <motion.button
-            className="flex items-center gap-3 text-white hover:text-primary-400 transition-colors"
+            className="flex items-center gap-3 text-white hover:text-emerald-300 transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
+            <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 hover:bg-emerald-500/20 hover:border-emerald-400 transition-all duration-300">
               <Play className="w-5 h-5 ml-1" />
             </div>
             <span className="text-lg font-medium">Watch Demo</span>

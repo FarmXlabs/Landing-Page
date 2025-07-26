@@ -55,7 +55,7 @@ const EcosystemSection = () => {
               viewport={{ once: true }}
               className="group"
             >
-              <div className="p-6 rounded-full inline-block border-4 border-slate-200 mb-4 text-primary-600 bg-white hover:scale-110 hover:border-primary-300 transition-all duration-300 shadow-lg group-hover:shadow-xl">
+              <div className="p-6 rounded-full inline-block border-4 border-slate-200 mb-4 text-emerald-600 bg-white hover:scale-110 hover:border-emerald-300 transition-all duration-300 shadow-lg group-hover:shadow-xl floating-animation">
                 <item.icon className="w-12 h-12" />
               </div>
               <h3 className="text-2xl font-semibold mb-2 text-slate-900">{item.title}</h3>

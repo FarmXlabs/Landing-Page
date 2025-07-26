@@ -40,7 +40,7 @@ const WaitlistSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-primary-700 to-emerald-600 rounded-3xl p-8 md:p-12 lg:p-16 shadow-2xl"
+          className="bg-gradient-to-r from-slate-900 via-emerald-800 to-emerald-600 rounded-3xl p-8 md:p-12 lg:p-16 shadow-2xl"
         >
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
