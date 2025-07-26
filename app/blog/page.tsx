@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Calendar, User, Clock, ArrowRight, BookOpen, TrendingUp, Lightbulb } from 'lucide-react'
+import { Calendar, User, Clock, BookOpen, TrendingUp, Lightbulb } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -17,7 +17,8 @@ const blogPosts = [
     readTime: "5 min read",
     category: "Technology",
     icon: TrendingUp,
-    image: "/images/blog-1.jpg"
+    image: "/images/blog-1.jpg",
+    slug: "future-of-autonomous-agriculture"
   },
   {
     id: 2,
@@ -28,7 +29,8 @@ const blogPosts = [
     readTime: "7 min read",
     category: "Sustainability",
     icon: Lightbulb,
-    image: "/images/blog-2.jpg"
+    image: "/images/blog-2.jpg",
+    slug: "sustainable-farming-food-security"
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ const blogPosts = [
     readTime: "4 min read",
     category: "Innovation",
     icon: BookOpen,
-    image: "/images/blog-3.jpg"
+    image: "/images/blog-3.jpg",
+    slug: "smart-irrigation-water-conservation"
   }
 ]
 
@@ -49,7 +52,7 @@ const BlogPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white pt-24 pb-16">
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white pt-32 pb-20">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -93,8 +96,9 @@ const BlogPage = () => {
                     className="object-cover w-full h-full"
                   />
                 </div>
-                {/* Blog Header */}
-                <div className="p-6 border-b border-slate-100">
+                
+                {/* Blog Content */}
+                <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <span className="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">
                       {post.category}
@@ -102,21 +106,20 @@ const BlogPage = () => {
                     <IconComponent className="w-5 h-5 text-emerald-600 group-hover:scale-110 transition-transform" />
                   </div>
                   
-                  {/* Title */}
-                  <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2">
-                    {post.title}
-                  </h2>
+                  {/* Clickable Title */}
+                  <Link href={`/blog/${post.slug}`}>
+                    <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2">
+                      {post.title}
+                    </h2>
+                  </Link>
 
                   {/* Excerpt */}
-                  <p className="text-slate-600 leading-relaxed line-clamp-3">
+                  <p className="text-slate-600 leading-relaxed line-clamp-3 mb-6">
                     {post.excerpt}
                   </p>
-                </div>
 
-                {/* Blog Footer */}
-                <div className="p-6">
                   {/* Meta Information */}
-                  <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
+                  <div className="flex items-center justify-between text-sm text-slate-500">
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-1">
                         <User className="w-4 h-4" />
@@ -132,12 +135,6 @@ const BlogPage = () => {
                       {post.readTime}
                     </div>
                   </div>
-
-                  {/* Read More Button */}
-                  <button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold py-3 px-4 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group">
-                    <span>Read Article</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
                 </div>
               </motion.article>
             )

@@ -1,138 +1,161 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Twitter, Facebook, Youtube, Heart, Mail } from 'lucide-react'
+import { Twitter, Facebook, Youtube, Heart, Mail, MapPin, Phone } from 'lucide-react'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-slate-900 text-slate-400 pt-12 pb-4">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-8 text-center md:text-left">
-          {/* Brand & Address */}
+    <footer className="bg-slate-900 text-slate-300">
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+          {/* Company Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="md:col-span-1"
+            className="lg:col-span-2"
           >
-            <h3 className="text-2xl font-bold text-white mb-4">
-              FarmX<span className="gradient-text">Labs</span>
-            </h3>
-            <p className="leading-relaxed mb-4">
-              Empowering the heart of India through technology and innovation.
-            </p>
-            <div className="space-y-1 text-sm text-slate-500">
-              <p>FarmXLabs Pvt Ltd</p>
-              <p>123 AgriTech Park, Bengaluru, India</p>
-              <p>Email: <a href="mailto:info@farmxlabs.com" className="underline hover:text-emerald-400">info@farmxlabs.com</a></p>
+            <div className="mb-6">
+              <h3 className="text-3xl font-bold text-white mb-4">
+                FarmX<span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Labs</span>
+              </h3>
+              <p className="text-lg text-slate-300 leading-relaxed max-w-md">
+                Empowering the heart of India through technology and innovation. Revolutionizing agriculture with autonomous solutions.
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-emerald-400" />
+                <span>123 AgriTech Park, Bengaluru, India</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-emerald-400" />
+                <a href="mailto:info@farmxlabs.com" className="hover:text-emerald-400 transition-colors">
+                  info@farmxlabs.com
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-emerald-400" />
+                <span>+91 98765 43210</span>
+              </div>
             </div>
           </motion.div>
 
-          {/* Spam Links */}
+          {/* Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="md:col-span-1"
           >
-            <h4 className="text-lg font-semibold text-white mb-4">Resources</h4>
-            <ul className="space-y-2">
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Cookie Policy</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Data Protection</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Security</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Compliance</a></li>
+            <h4 className="text-xl font-semibold text-white mb-6">Quick Links</h4>
+            <ul className="space-y-3">
+              <li><a href="/#features" className="hover:text-emerald-400 transition-colors">Why Us?</a></li>
+              <li><a href="/#advantage" className="hover:text-emerald-400 transition-colors">The Advantage</a></li>
+              <li><a href="/#ecosystem" className="hover:text-emerald-400 transition-colors">Ecosystem</a></li>
+              <li><a href="/blog" className="hover:text-emerald-400 transition-colors">Blog</a></li>
+              <li><a href="/#faq" className="hover:text-emerald-400 transition-colors">FAQ</a></li>
+              <li><a href="#login" className="hover:text-emerald-400 transition-colors">Login</a></li>
             </ul>
           </motion.div>
 
-          {/* Newsletter Signup */}
+          {/* Newsletter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="md:col-span-1 flex flex-col items-center"
           >
-            <h4 className="text-lg font-semibold text-white mb-4">Newsletter</h4>
-            <form className="flex flex-col gap-3 w-full max-w-xs mx-auto">
-              <div className="flex rounded-lg overflow-hidden border border-slate-700 bg-slate-800">
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  className="bg-transparent px-4 py-3 text-white flex-1 outline-none placeholder-slate-500"
-                  required
-                />
-                <button 
-                  type="submit" 
-                  className="bg-emerald-600 hover:bg-emerald-700 px-4 py-3 text-white font-semibold flex items-center gap-2 transition-colors"
-                >
-                  <Mail className="w-4 h-4" /> 
-                  <span className="hidden sm:inline">Subscribe</span>
-                </button>
-              </div>
-              <span className="text-xs text-slate-500">No spam. Unsubscribe anytime.</span>
+            <h4 className="text-xl font-semibold text-white mb-6">Stay Updated</h4>
+            <p className="text-slate-400 mb-4">Get the latest insights on agricultural technology.</p>
+            <form className="space-y-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors"
+                required
+              />
+              <button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold py-3 px-6 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105"
+              >
+                Subscribe
+              </button>
             </form>
-          </motion.div>
-
-          {/* Socials */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="md:col-span-1"
-          >
-            <h4 className="text-lg font-semibold text-white mb-4">Connect With Us</h4>
-            <div className="flex justify-center md:justify-start space-x-4 mb-4">
-              <motion.a
-                href="#"
-                className="hover:text-emerald-400 transition-colors p-2 rounded-full hover:bg-slate-800"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Twitter className="w-6 h-6" />
-              </motion.a>
-              <motion.a
-                href="#"
-                className="hover:text-emerald-400 transition-colors p-2 rounded-full hover:bg-slate-800"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Facebook className="w-6 h-6" />
-              </motion.a>
-              <motion.a
-                href="#"
-                className="hover:text-emerald-400 transition-colors p-2 rounded-full hover:bg-slate-800"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Youtube className="w-6 h-6" />
-              </motion.a>
-            </div>
-            <div className="text-xs text-slate-500">
-              <span>Follow us for updates and news.</span>
-            </div>
+            <p className="text-xs text-slate-500 mt-2">No spam. Unsubscribe anytime.</p>
           </motion.div>
         </div>
 
+        {/* Social Links */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="border-t border-slate-700 mt-8 pt-8 text-center"
+          className="mt-12 pt-8 border-t border-slate-800"
         >
-          <p className="flex items-center justify-center gap-2 text-sm text-slate-500">
-            &copy; {currentYear} FarmXLabs. All Rights Reserved. Made with
-            <Heart className="w-4 h-4 text-red-500" />
-            for Indian Farmers.
-          </p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-6">
+              <span className="text-slate-400">Follow us:</span>
+              <div className="flex gap-4">
+                <motion.a
+                  href="#"
+                  className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-emerald-600 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Twitter className="w-5 h-5" />
+                </motion.a>
+                <motion.a
+                  href="#"
+                  className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-emerald-600 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Facebook className="w-5 h-5" />
+                </motion.a>
+                <motion.a
+                  href="#"
+                  className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-emerald-600 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Youtube className="w-5 h-5" />
+                </motion.a>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2 text-slate-400">
+              <span>Made with</span>
+              <Heart className="w-4 h-4 text-red-500" />
+              <span>for Indian Farmers</span>
+            </div>
+          </div>
         </motion.div>
+      </div>
+
+      {/* Copyright Bar */}
+      <div className="bg-slate-950 py-4">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+            <div className="flex items-center gap-4">
+              <span>&copy; {currentYear} FarmXLabs. All Rights Reserved.</span>
+              <div className="hidden md:flex items-center gap-4">
+                <a href="#" className="hover:text-emerald-400 transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-emerald-400 transition-colors">Terms of Service</a>
+                <a href="#" className="hover:text-emerald-400 transition-colors">Cookie Policy</a>
+              </div>
+            </div>
+            <div className="text-xs">
+              <span>Empowering Agriculture Through Technology</span>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   )

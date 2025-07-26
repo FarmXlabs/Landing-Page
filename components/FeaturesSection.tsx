@@ -59,15 +59,15 @@ const FeaturesSection = () => {
               viewport={{ once: true }}
               className="group"
             >
-              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-100 hover:border-emerald-200 group relative overflow-hidden">
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-100 hover:border-emerald-200 group relative overflow-hidden h-full flex flex-col">
                 {/* Hover Effect Background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10">
+                <div className="relative z-10 flex-1 flex flex-col">
                   <div className="bg-emerald-100 text-emerald-600 rounded-full h-20 w-20 flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform duration-300 group-hover:shadow-lg">
                     <feature.icon className="w-10 h-10" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-emerald-700 transition-colors">{feature.title}</h3>
-                  <p className="text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors">{feature.description}</p>
+                  <h3 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-emerald-700 transition-colors">{feature.title}</h3>
+                  <p className="text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors flex-1">{feature.description}</p>
                 </div>
               </div>
             </motion.div>
