@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, User, LogIn } from 'lucide-react'
 
 const navItems = [
   { href: '#features', label: 'Why Us?' },
@@ -66,11 +66,13 @@ const Header = () => {
           <div className="hidden md:flex items-center">
             <motion.a
               href="#login"
-              className="border border-emerald-600 text-emerald-600 font-semibold px-6 py-3 rounded-lg bg-white/80 hover:bg-emerald-50 transition-all transform hover:scale-105"
+              className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center gap-2 border border-emerald-500"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Login
+              <User className="w-4 h-4" />
+              <LogIn className="w-4 h-4" />
+              <span>Login</span>
             </motion.a>
           </div>
 
@@ -105,10 +107,12 @@ const Header = () => {
                 ))}
                 <a
                   href="#login"
-                  className="border border-emerald-600 text-emerald-600 font-semibold px-6 py-3 rounded-lg bg-white/80 hover:bg-emerald-50 transition-all text-center"
+                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all text-center flex items-center justify-center gap-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Login
+                  <User className="w-4 h-4" />
+                  <LogIn className="w-4 h-4" />
+                  <span>Login</span>
                 </a>
               </nav>
             </motion.div>
