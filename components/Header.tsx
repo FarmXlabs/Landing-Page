@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, User } from 'lucide-react'
+import { Menu, X, Lock } from 'lucide-react'
 import Link from 'next/link'
 
 const navItems = [
@@ -69,13 +69,11 @@ const Header = () => {
           <div className="hidden md:flex items-center">
             <motion.a
               href="#login"
-              className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center gap-3 border border-emerald-400/30 hover:border-emerald-300/50"
+              className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center gap-2 border border-emerald-400/30 hover:border-emerald-300/50"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="w-3 h-3" />
-              </div>
+              <Lock className="w-4 h-4" />
               <span>Login</span>
             </motion.a>
           </div>
@@ -111,12 +109,10 @@ const Header = () => {
                 ))}
                 <a
                   href="#login"
-                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all text-center flex items-center justify-center gap-3 border border-emerald-400/30"
+                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:shadow-lg transition-all text-center flex items-center justify-center gap-2 border border-emerald-400/30"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center">
-                    <User className="w-2.5 h-2.5" />
-                  </div>
+                  <Lock className="w-4 h-4" />
                   <span>Login</span>
                 </a>
               </nav>

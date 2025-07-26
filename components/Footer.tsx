@@ -56,10 +56,10 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="md:col-span-1"
+            className="md:col-span-1 flex flex-col items-center"
           >
             <h4 className="text-lg font-semibold text-white mb-4">Newsletter</h4>
-            <form className="flex flex-col gap-3">
+            <form className="flex flex-col gap-3 w-full max-w-xs mx-auto">
               <div className="flex rounded-lg overflow-hidden border border-slate-700 bg-slate-800">
                 <input
                   type="email"

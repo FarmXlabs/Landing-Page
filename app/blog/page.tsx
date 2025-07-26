@@ -16,7 +16,8 @@ const blogPosts = [
     date: "2024-01-15",
     readTime: "5 min read",
     category: "Technology",
-    icon: TrendingUp
+    icon: TrendingUp,
+    image: "/images/blog-1.jpg"
   },
   {
     id: 2,
@@ -26,7 +27,8 @@ const blogPosts = [
     date: "2024-01-10",
     readTime: "7 min read",
     category: "Sustainability",
-    icon: Lightbulb
+    icon: Lightbulb,
+    image: "/images/blog-2.jpg"
   },
   {
     id: 3,
@@ -36,7 +38,8 @@ const blogPosts = [
     date: "2024-01-05",
     readTime: "4 min read",
     category: "Innovation",
-    icon: BookOpen
+    icon: BookOpen,
+    image: "/images/blog-3.jpg"
   }
 ]
 
@@ -54,10 +57,6 @@ const BlogPage = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <Link href="/" className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 mb-6 transition-colors">
-              <ArrowRight className="w-4 h-4 rotate-180" />
-              Back to Home
-            </Link>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               FarmXLabs <span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Blog</span>
             </h1>
@@ -86,6 +85,14 @@ const BlogPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
+                {/* Blog Header Image */}
+                <div className="h-44 w-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={post.image || '/images/placeholder.jpg'}
+                    alt={post.title}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
                 {/* Blog Header */}
                 <div className="p-6 border-b border-slate-100">
                   <div className="flex items-center justify-between mb-4">
