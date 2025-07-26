@@ -1,22 +1,32 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Play } from 'lucide-react'
 
+const rotatingTexts = [
+  "खेती का भविष्य, आज।",
+  "వ్యవసాయ భవిష్యత్తు, ఈ రోజు.",
+  "കൃഷിയുടെ ഭാവി, ഇന്ന്.",
+  "ಕೃಷಿಯ ಭವಿಷ್ಯ, ಇಂದು.",
+  "விவசாயத்தின் எதிர்காலம், இன்று."
+]
+
 const HeroSection = () => {
-  const rotatingTexts = [
-    "खेती का भविष्य, आज।",
-    "వ్యవసాయ భవిష్యత్తు, ఈ రోజు.",
-    "കൃഷിയുടെ ഭാവി, ഇന്ന്.",
-    "ಕೃಷಿಯ ಭವಿಷ್ಯ, ಇಂದು.",
-    "விவசாயத்தின் எதிர்காலம், இன்று."
-  ]
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % rotatingTexts.length)
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2832&q=80')] bg-cover bg-center bg-no-repeat opacity-15"></div>
+        <div className="absolute inset-0 bg-[url('/images/hero.png')] bg-cover bg-center bg-no-repeat opacity-15"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-slate-900/90"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/30 via-transparent to-emerald-900/30"></div>
         {/* Grainy Texture */}
@@ -25,29 +35,29 @@ const HeroSection = () => {
         }}></div>
       </div>
 
-              {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-emerald-400/30 rounded-full"
-              animate={{
-                x: [0, Math.random() * 200 - 100, 0],
-                y: [0, Math.random() * 200 - 100, 0],
-                opacity: [0, 0.8, 0],
-              }}
-              transition={{
-                duration: Math.random() * 15 + 15,
-                repeat: Infinity,
-                delay: Math.random() * 10,
-              }}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
-        </div>
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-emerald-400/30 rounded-full"
+            animate={{
+              x: [0, Math.random() * 200 - 100, 0],
+              y: [0, Math.random() * 200 - 100, 0],
+              opacity: [0, 0.8, 0],
+            }}
+            transition={{
+              duration: Math.random() * 15 + 15,
+              repeat: Infinity,
+              delay: Math.random() * 10,
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+          />
+        ))}
+      </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
@@ -64,33 +74,20 @@ const HeroSection = () => {
         </motion.div>
 
         {/* Rotating Text */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="min-h-[90px] flex items-center justify-center mb-8"
-        >
-          <div className="relative w-full h-[90px] flex items-center justify-center">
-            {rotatingTexts.map((text, index) => (
-              <motion.span
-                key={index}
-                className="absolute text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90 text-center px-4"
-                animate={{
-                  opacity: [0, 1, 1, 0],
-                  y: [30, 0, 0, -30],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: index * 3,
-                  ease: "easeInOut",
-                }}
-              >
-                {text}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
+        <div className="min-h-[90px] flex items-center justify-center mb-8 relative w-full h-[90px]">
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={current}
+              className="absolute w-full text-2xl md:text-4xl lg:text-5xl font-bold text-emerald-300/90 text-center px-4 flex items-center justify-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.6 }}
+            >
+              {rotatingTexts[current]}
+            </motion.span>
+          </AnimatePresence>
+        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
@@ -133,8 +130,6 @@ const HeroSection = () => {
             <span className="text-lg font-medium">Watch Demo</span>
           </motion.button>
         </motion.div>
-
-
       </div>
     </section>
   )

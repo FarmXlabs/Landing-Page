@@ -4,24 +4,25 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
+const navItems = [
+  { href: '#features', label: 'Why Us?' },
+  { href: '#advantage', label: 'The Advantage' },
+  { href: '#ecosystem', label: 'Ecosystem' },
+  { href: '/blog', label: 'Blog' },
+  { href: '#faq', label: 'FAQ' },
+]
+
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 50)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const navItems = [
-    { href: '#features', label: 'Why Us?' },
-    { href: '#advantage', label: 'The Advantage' },
-    { href: '#ecosystem', label: 'Ecosystem' },
-    { href: '#faq', label: 'FAQ' },
-  ]
 
   return (
     <motion.header
@@ -37,7 +38,6 @@ const Header = () => {
           <motion.h1 
             className="text-3xl font-bold text-white"
             whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             FarmX<span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Labs</span>
           </motion.h1>
@@ -62,26 +62,24 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <motion.a
-            href="#waitlist"
-            className="hidden md:block gradient-bg text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-105"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Request Early Access
-          </motion.a>
+          {/* Login Button */}
+          <div className="hidden md:flex items-center">
+            <motion.a
+              href="#login"
+              className="border border-emerald-600 text-emerald-600 font-semibold px-6 py-3 rounded-lg bg-white/80 hover:bg-emerald-50 transition-all transform hover:scale-105"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Login
+            </motion.a>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden text-white p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6 text-slate-900" />
-            ) : (
-              <Menu className="h-6 w-6 text-slate-900" />
-            )}
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
@@ -92,25 +90,25 @@ const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 bg-white/95 backdrop-blur-xl rounded-lg shadow-xl border border-white/20"
+              className="md:hidden mt-4 pb-4"
             >
-              <nav className="flex flex-col space-y-4 p-6">
+              <nav className="flex flex-col space-y-4">
                 {navItems.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
-                    className="text-slate-700 hover:text-primary-600 transition-colors text-lg font-medium"
+                    className="text-slate-200 hover:text-emerald-300 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
                   </a>
                 ))}
                 <a
-                  href="#waitlist"
-                  className="gradient-bg text-white font-semibold px-6 py-3 rounded-lg text-center mt-4"
+                  href="#login"
+                  className="border border-emerald-600 text-emerald-600 font-semibold px-6 py-3 rounded-lg bg-white/80 hover:bg-emerald-50 transition-all text-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Request Early Access
+                  Login
                 </a>
               </nav>
             </motion.div>
