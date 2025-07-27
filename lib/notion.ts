@@ -23,6 +23,19 @@ export interface BlogPost {
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
+    // Check if environment variables are set
+    if (!process.env.NOTION_API_KEY) {
+      console.error('NOTION_API_KEY is not set')
+      return []
+    }
+    
+    if (!process.env.NOTION_DATABASE_ID) {
+      console.error('NOTION_DATABASE_ID is not set')
+      return []
+    }
+
+    console.log('Fetching blog posts from Notion...')
+    
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
@@ -38,6 +51,8 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         }
       ]
     })
+
+    console.log(`Found ${response.results.length} blog posts`)
 
     return response.results.map((page: any) => {
       const properties = page.properties
@@ -59,12 +74,28 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     })
   } catch (error) {
     console.error('Error fetching blog posts:', error)
+    if (error instanceof Error) {
+      console.error('Error details:', error.message)
+    }
     return []
   }
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
+    // Check if environment variables are set
+    if (!process.env.NOTION_API_KEY) {
+      console.error('NOTION_API_KEY is not set')
+      return null
+    }
+    
+    if (!process.env.NOTION_DATABASE_ID) {
+      console.error('NOTION_DATABASE_ID is not set')
+      return null
+    }
+
+    console.log(`Fetching blog post with slug: ${slug}`)
+    
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
@@ -86,6 +117,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     })
 
     if (response.results.length === 0) {
+      console.log(`No blog post found with slug: ${slug}`)
       return null
     }
 
@@ -108,12 +140,26 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     }
   } catch (error) {
     console.error('Error fetching blog post:', error)
+    if (error instanceof Error) {
+      console.error('Error details:', error.message)
+    }
     return null
   }
 }
 
 export async function getAllBlogSlugs(): Promise<string[]> {
   try {
+    // Check if environment variables are set
+    if (!process.env.NOTION_API_KEY) {
+      console.error('NOTION_API_KEY is not set')
+      return []
+    }
+    
+    if (!process.env.NOTION_DATABASE_ID) {
+      console.error('NOTION_DATABASE_ID is not set')
+      return []
+    }
+
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
@@ -129,6 +175,9 @@ export async function getAllBlogSlugs(): Promise<string[]> {
     ).filter(Boolean)
   } catch (error) {
     console.error('Error fetching blog slugs:', error)
+    if (error instanceof Error) {
+      console.error('Error details:', error.message)
+    }
     return []
   }
 } 
