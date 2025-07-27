@@ -40,15 +40,32 @@ function extractText(property: any): string {
 
 // Helper function to extract image URL
 function extractImageUrl(property: any): string {
-  if (!property || property.type !== 'files' || !property.files || property.files.length === 0) {
+  console.log('Extracting image from property:', JSON.stringify(property, null, 2))
+  
+  if (!property) {
+    console.log('No image property found, using placeholder')
+    return '/images/placeholder.jpg'
+  }
+  
+  if (property.type !== 'files') {
+    console.log(`Property type is ${property.type}, not files, using placeholder`)
+    return '/images/placeholder.jpg'
+  }
+  
+  if (!property.files || property.files.length === 0) {
+    console.log('No files in property, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   const file = property.files[0]
+  console.log('File object:', JSON.stringify(file, null, 2))
+  
   if (file.type === 'file' && file.file) {
+    console.log('Extracted image URL:', file.file.url)
     return file.file.url
   }
   
+  console.log('File type or structure not as expected, using placeholder')
   return '/images/placeholder.jpg'
 }
 
@@ -67,6 +84,28 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
     console.log('Fetching blog posts from Notion...')
     
+    // First, let's get ALL posts to see what's available
+    const allResponse = await notion.databases.query({
+      database_id: databaseId,
+      sorts: [
+        {
+          property: 'Published Date',
+          direction: 'descending'
+        }
+      ]
+    })
+    
+    console.log(`Total posts in database: ${allResponse.results.length}`)
+    
+    // Log all posts and their status
+    allResponse.results.forEach((page: any, index: number) => {
+      const properties = page.properties
+      const status = properties['Status']?.select?.name || 'No Status'
+      const title = extractText(properties['Page Name'])
+      console.log(`Post ${index + 1}: "${title}" - Status: "${status}"`)
+    })
+    
+    // Now filter for published posts
     const response = await notion.databases.query({
       database_id: databaseId,
       filter: {
@@ -83,15 +122,18 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       ]
     })
 
-    console.log(`Found ${response.results.length} blog posts`)
+    console.log(`Found ${response.results.length} published blog posts`)
 
     return response.results.map((page: any) => {
       const properties = page.properties
       
+      console.log(`\nProcessing post: ${page.id}`)
+      console.log('Available properties:', Object.keys(properties))
+      
       const title = extractText(properties['Page Name'])
       const image = extractImageUrl(properties['Image'])
       
-      return {
+      const blogPost = {
         id: page.id,
         title: title,
         slug: properties['Slug']?.rich_text?.[0]?.plain_text || '',
@@ -105,6 +147,17 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         status: properties['Status']?.select?.name || 'Draft',
         pageName: title
       }
+      
+      console.log('Mapped blog post:', {
+        title: blogPost.title,
+        slug: blogPost.slug,
+        status: blogPost.status,
+        image: blogPost.image,
+        author: blogPost.author,
+        category: blogPost.category
+      })
+      
+      return blogPost
     })
   } catch (error) {
     console.error('Error fetching blog posts:', error)
