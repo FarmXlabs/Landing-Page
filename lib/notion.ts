@@ -65,6 +65,11 @@ function extractImageUrl(property: any): string {
     return file.file.url
   }
   
+  if (file.type === 'external' && file.external) {
+    console.log('Extracted external image URL:', file.external.url)
+    return file.external.url
+  }
+  
   console.log('File type or structure not as expected, using placeholder')
   return '/images/placeholder.jpg'
 }
@@ -105,15 +110,16 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       console.log(`Post ${index + 1}: "${title}" - Status: "${status}"`)
     })
     
-    // Now filter for published posts
+    // Now filter for published posts (temporarily get all posts to debug)
     const response = await notion.databases.query({
       database_id: databaseId,
-      filter: {
-        property: 'Status',
-        select: {
-          equals: 'Published'
-        }
-      },
+      // Temporarily removing filter to see all posts
+      // filter: {
+      //   property: 'Status',
+      //   select: {
+      //     equals: 'Published'
+      //   }
+      // },
       sorts: [
         {
           property: 'Published Date',
