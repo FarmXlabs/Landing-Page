@@ -101,15 +101,17 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       console.log(`Post ${index + 1}: "${title}" - Status: "${status}"`)
     })
     
-    // Now filter for published posts
+    // Now filter for published posts (temporarily get all posts to debug filter issue)
+    console.log('Getting all posts to debug filter issue...')
     const response = await notion.databases.query({
       database_id: databaseId,
-      filter: {
-        property: 'Status',
-        select: {
-          equals: 'Published'
-        }
-      },
+      // Temporarily removing filter to see all posts
+      // filter: {
+      //   property: 'Status',
+      //   select: {
+      //     equals: 'Published'
+      //   }
+      // },
       sorts: [
         {
           property: 'Published Date',
@@ -119,6 +121,14 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     })
 
     console.log(`Found ${response.results.length} published blog posts`)
+    
+    // Debug: Show which posts were found by the filter
+    response.results.forEach((page: any, index: number) => {
+      const properties = page.properties
+      const status = properties['Status']?.select?.name || 'No Status'
+      const title = extractText(properties['Page Name'])
+      console.log(`Filtered post ${index + 1}: "${title}" - Status: "${status}"`)
+    })
 
     return response.results.map((page: any) => {
       const properties = page.properties
