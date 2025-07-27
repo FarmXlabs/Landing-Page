@@ -38,7 +38,7 @@ export default function BlogClientWrapper({ blogPosts }: BlogClientWrapperProps)
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 {/* Blog Header Image */}
-                <div className="h-44 w-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center overflow-hidden">
+                <div className="h-44 w-full overflow-hidden">
                   <img
                     src={post.image || '/images/placeholder.jpg'}
                     alt={post.title}
