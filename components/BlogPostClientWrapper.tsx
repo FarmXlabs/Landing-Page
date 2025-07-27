@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Calendar, User, Clock, ArrowLeft, Share2 } from 'lucide-react'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
 import { BlogPost } from '@/lib/notion'
 import { formatDate } from '@/lib/utils'
 
@@ -89,10 +90,10 @@ export default function BlogPostClientWrapper({ blogPost }: BlogPostClientWrappe
             className="prose prose-lg max-w-none"
           >
             {/* Blog Content */}
-            <div 
-              className="text-lg leading-relaxed text-slate-700 whitespace-pre-wrap"
-            >
-              {blogPost.content}
+            <div className="text-lg leading-relaxed text-slate-700 prose prose-lg max-w-none prose-headings:text-slate-900 prose-p:text-slate-700 prose-strong:text-slate-900 prose-ul:text-slate-700 prose-ol:text-slate-700">
+              <ReactMarkdown>
+                {blogPost.content}
+              </ReactMarkdown>
             </div>
           </motion.div>
         </div>
