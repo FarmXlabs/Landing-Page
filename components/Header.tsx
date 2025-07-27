@@ -33,8 +33,13 @@ const Header = () => {
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18">
           {/* Logo */}
-          <Link href="/" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white hover:text-emerald-300 transition-colors">
-            FarmX<span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Labs</span>
+          <Link href="/" className="flex items-center h-full group">
+            <img
+              src="/images/logo.svg"
+              alt="FarmXLabs Logo"
+              className="h-8 w-auto sm:h-10 transition-transform group-hover:scale-105"
+              style={{ maxWidth: '160px' }}
+            />
           </Link>
 
           {/* Desktop Navigation */}

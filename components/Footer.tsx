@@ -68,9 +68,12 @@ const Footer = () => {
             viewport={{ once: true }}
             className="flex flex-col items-start"
           >
-            <h3 className="text-2xl font-bold text-white mb-4">
-              FarmX<span className="gradient-text bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">Labs</span>
-            </h3>
+            <img
+              src="/images/logo.svg"
+              alt="FarmXLabs Logo"
+              className="h-10 w-auto mb-4"
+              style={{ maxWidth: '160px' }}
+            />
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-emerald-400" />
