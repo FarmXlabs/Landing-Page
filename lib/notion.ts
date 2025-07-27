@@ -40,37 +40,28 @@ function extractText(property: any): string {
 
 // Helper function to extract image URL
 function extractImageUrl(property: any): string {
-  console.log('Extracting image from property:', JSON.stringify(property, null, 2))
-  
   if (!property) {
-    console.log('No image property found, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   if (property.type !== 'files') {
-    console.log(`Property type is ${property.type}, not files, using placeholder`)
     return '/images/placeholder.jpg'
   }
   
   if (!property.files || property.files.length === 0) {
-    console.log('No files in property, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   const file = property.files[0]
-  console.log('File object:', JSON.stringify(file, null, 2))
   
   if (file.type === 'file' && file.file) {
-    console.log('Extracted image URL:', file.file.url)
     return file.file.url
   }
   
   if (file.type === 'external' && file.external) {
-    console.log('Extracted external image URL:', file.external.url)
     return file.external.url
   }
   
-  console.log('File type or structure not as expected, using placeholder')
   return '/images/placeholder.jpg'
 }
 
@@ -214,13 +205,9 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 // Helper function to fetch page content from Notion
 async function getPageContent(pageId: string): Promise<string> {
   try {
-    console.log(`Fetching page content for page ID: ${pageId}`)
-    
     const response = await notion.blocks.children.list({
       block_id: pageId,
     })
-    
-    console.log(`Found ${response.results.length} blocks in page`)
     
     // Convert blocks to markdown content
     let content = ''
@@ -246,7 +233,6 @@ async function getPageContent(pageId: string): Promise<string> {
       }
     }
     
-    console.log('Generated content length:', content.length)
     return content.trim()
   } catch (error) {
     console.error('Error fetching page content:', error)
