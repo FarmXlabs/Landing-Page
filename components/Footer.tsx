@@ -71,8 +71,8 @@ const Footer = () => {
             <img
               src="/images/logo.svg"
               alt="FarmXLabs Logo"
-              className="h-10 w-auto mb-4"
-              style={{ maxWidth: '160px' }}
+              className="h-10 md:h-12 w-auto mb-4"
+              style={{ maxWidth: '200px' }}
             />
             <div className="space-y-3">
               <div className="flex items-center gap-3">

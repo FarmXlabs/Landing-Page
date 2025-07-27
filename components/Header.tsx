@@ -37,8 +37,8 @@ const Header = () => {
             <img
               src="/images/logo.svg"
               alt="FarmXLabs Logo"
-              className="h-8 w-auto sm:h-10 transition-transform group-hover:scale-105"
-              style={{ maxWidth: '160px' }}
+              className="h-9 md:h-12 w-auto transition-transform group-hover:scale-105"
+              style={{ maxWidth: '200px' }}
             />
           </Link>
 
