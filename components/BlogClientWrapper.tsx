@@ -22,7 +22,7 @@ export default function BlogClientWrapper({ blogPosts }: BlogClientWrapperProps)
   return (
     <>
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-emerald-50 via-white to-white pt-24 pb-12">
+      <div className="bg-gradient-to-b from-emerald-50 to-white pt-20 pb-8">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -32,31 +32,33 @@ export default function BlogClientWrapper({ blogPosts }: BlogClientWrapperProps)
           >
             {/* Main Content */}
             <div className="relative z-10">
-              {/* Title */}
-              <motion.h1 
-                className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Our{' '}
-                <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent">
-                  Blog
-                </span>
-              </motion.h1>
-              
-              {/* Latest Insights Tag */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="inline-block bg-emerald-100 text-emerald-700 text-sm font-semibold px-6 py-3 rounded-full border border-emerald-200 mb-8"
-              >
-                📚 Latest Insights
-              </motion.div>
+              {/* Title and Latest Insights */}
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <motion.h1 
+                  className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  Our{' '}
+                  <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent">
+                    Blog
+                  </span>
+                </motion.h1>
+                
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 text-xs font-semibold px-4 py-2 rounded-full border border-emerald-200"
+                >
+                  <span className="text-emerald-600">📚</span>
+                  Latest Insights
+                </motion.div>
+              </div>
               
               <motion.p 
-                className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed"
+                className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -70,10 +72,10 @@ export default function BlogClientWrapper({ blogPosts }: BlogClientWrapperProps)
       </div>
 
       {/* Blog Posts Grid */}
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-6 py-6">
         {blogPosts.length > 0 ? (
           <motion.div 
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}

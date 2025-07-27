@@ -74,7 +74,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-emerald-400" />
-                <span className="text-sm">123 AgriTech Park, Bengaluru, India</span>
+                <span className="text-sm">5/248, Perundrai, TN-638057</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-emerald-400" />
@@ -84,7 +84,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-emerald-400" />
-                <span className="text-sm">+91 98765 43210</span>
+                <span className="text-sm">+91 73588 36700</span>
               </div>
             </div>
           </motion.div>
