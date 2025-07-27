@@ -4,6 +4,12 @@ import Footer from '@/components/Footer'
 import BlogPostClientWrapper from '@/components/BlogPostClientWrapper'
 import { getBlogPost, getAllBlogSlugs } from '@/lib/notion'
 
+// Force revalidation every 60 seconds
+export const revalidate = 60
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 // Generate static params for all blog posts
 export async function generateStaticParams() {
   const slugs = await getAllBlogSlugs()

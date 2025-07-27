@@ -41,27 +41,44 @@ function extractText(property: any): string {
 // Helper function to extract image URL
 function extractImageUrl(property: any): string {
   if (!property) {
+    console.log('No image property found, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   if (property.type !== 'files') {
+    console.log('Property is not files type, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   if (!property.files || property.files.length === 0) {
+    console.log('No files in property, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   const file = property.files[0]
+  console.log('File object:', file)
   
   if (file.type === 'file' && file.file) {
-    return file.file.url
+    const imageUrl = file.file.url
+    console.log('Extracted image URL:', imageUrl)
+    
+    // Check if URL is expired (contains expiry_time)
+    if (imageUrl.includes('X-Amz-Expires=')) {
+      console.log('Image URL contains expiry parameters, may be expired')
+      // For now, still return the URL and let the frontend handle the error
+      return imageUrl
+    }
+    
+    return imageUrl
   }
   
   if (file.type === 'external' && file.external) {
-    return file.external.url
+    const imageUrl = file.external.url
+    console.log('Extracted external image URL:', imageUrl)
+    return imageUrl
   }
   
+  console.log('No valid file found, using placeholder')
   return '/images/placeholder.jpg'
 }
 
@@ -209,27 +226,58 @@ async function getPageContent(pageId: string): Promise<string> {
       block_id: pageId,
     })
     
-    // Convert blocks to markdown content
+    // Convert blocks to markdown content with proper formatting
     let content = ''
     for (const block of response.results as any[]) {
       if (block.type === 'paragraph' && block.paragraph) {
-        const text = block.paragraph.rich_text.map((text: any) => text.plain_text).join('')
+        const text = formatRichText(block.paragraph.rich_text)
         content += text + '\n\n'
       } else if (block.type === 'heading_1' && block.heading_1) {
-        const text = block.heading_1.rich_text.map((text: any) => text.plain_text).join('')
+        const text = formatRichText(block.heading_1.rich_text)
         content += `# ${text}\n\n`
       } else if (block.type === 'heading_2' && block.heading_2) {
-        const text = block.heading_2.rich_text.map((text: any) => text.plain_text).join('')
+        const text = formatRichText(block.heading_2.rich_text)
         content += `## ${text}\n\n`
       } else if (block.type === 'heading_3' && block.heading_3) {
-        const text = block.heading_3.rich_text.map((text: any) => text.plain_text).join('')
+        const text = formatRichText(block.heading_3.rich_text)
         content += `### ${text}\n\n`
       } else if (block.type === 'bulleted_list_item' && block.bulleted_list_item) {
-        const text = block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')
+        const text = formatRichText(block.bulleted_list_item.rich_text)
         content += `- ${text}\n`
       } else if (block.type === 'numbered_list_item' && block.numbered_list_item) {
-        const text = block.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')
+        const text = formatRichText(block.numbered_list_item.rich_text)
         content += `1. ${text}\n`
+      } else if (block.type === 'quote' && block.quote) {
+        const text = formatRichText(block.quote.rich_text)
+        content += `> ${text}\n\n`
+      } else if (block.type === 'code' && block.code) {
+        const text = formatRichText(block.code.rich_text)
+        const language = block.code.language || ''
+        content += `\`\`\`${language}\n${text}\n\`\`\`\n\n`
+      } else if (block.type === 'image' && block.image) {
+        const imageUrl = block.image.type === 'file' ? block.image.file.url : block.image.external.url
+        const caption = block.image.caption ? formatRichText(block.image.caption) : ''
+        content += `![${caption}](${imageUrl}${caption ? ` "${caption}"` : ''})\n\n`
+      } else if (block.type === 'divider') {
+        content += `---\n\n`
+      } else if (block.type === 'callout' && block.callout) {
+        const text = formatRichText(block.callout.rich_text)
+        const icon = block.callout.icon?.emoji || '💡'
+        content += `> ${icon} ${text}\n\n`
+      } else if (block.type === 'toggle' && block.toggle) {
+        const text = formatRichText(block.toggle.rich_text)
+        content += `<details>\n<summary>${text}</summary>\n\n`
+        // Recursively get toggle content
+        const toggleResponse = await notion.blocks.children.list({
+          block_id: block.id,
+        })
+        for (const toggleBlock of toggleResponse.results as any[]) {
+          if (toggleBlock.type === 'paragraph' && toggleBlock.paragraph) {
+            const toggleText = formatRichText(toggleBlock.paragraph.rich_text)
+            content += toggleText + '\n\n'
+          }
+        }
+        content += `</details>\n\n`
       }
     }
     
@@ -238,6 +286,39 @@ async function getPageContent(pageId: string): Promise<string> {
     console.error('Error fetching page content:', error)
     return ''
   }
+}
+
+// Helper function to format rich text with all Notion formatting
+function formatRichText(richText: any[]): string {
+  if (!richText || richText.length === 0) return ''
+  
+  return richText.map((text: any) => {
+    let formattedText = text.plain_text
+    
+    // Apply formatting based on annotations
+    if (text.annotations.bold) {
+      formattedText = `**${formattedText}**`
+    }
+    if (text.annotations.italic) {
+      formattedText = `*${formattedText}*`
+    }
+    if (text.annotations.strikethrough) {
+      formattedText = `~~${formattedText}~~`
+    }
+    if (text.annotations.code) {
+      formattedText = `\`${formattedText}\``
+    }
+    if (text.annotations.underline) {
+      formattedText = `<u>${formattedText}</u>`
+    }
+    
+    // Handle links
+    if (text.href) {
+      formattedText = `[${formattedText}](${text.href})`
+    }
+    
+    return formattedText
+  }).join('')
 }
 
 export async function getAllBlogSlugs(): Promise<string[]> {

@@ -1,8 +1,13 @@
+import { getBlogPosts } from '@/lib/notion'
+import BlogClientWrapper from '@/components/BlogClientWrapper'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import BlogClientWrapper from '@/components/BlogClientWrapper'
-import BlogHeroClientWrapper from '@/components/BlogHeroClientWrapper'
-import { getBlogPosts } from '@/lib/notion'
+
+// Force revalidation every 60 seconds
+export const revalidate = 60
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 
 export default async function BlogPage() {
   const blogPosts = await getBlogPosts()
@@ -11,9 +16,6 @@ export default async function BlogPage() {
     <div className="min-h-screen bg-gradient-to-b from-white to-emerald-50">
       <Header />
       
-      {/* Hero Section */}
-      <BlogHeroClientWrapper />
-
       {/* Blog Posts */}
       <BlogClientWrapper blogPosts={blogPosts} />
 
