@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Calendar, User, Clock, ArrowLeft, Share2 } from 'lucide-react'
 import Link from 'next/link'
 import { BlogPost } from '@/lib/notion'
+import { formatDate } from '@/lib/utils'
 
 interface BlogPostClientWrapperProps {
   blogPost: BlogPost
@@ -53,7 +54,7 @@ export default function BlogPostClientWrapper({ blogPost }: BlogPostClientWrappe
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
-                  {new Date(blogPost.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  {formatDate(blogPost.publishedDate, 'long')}
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />

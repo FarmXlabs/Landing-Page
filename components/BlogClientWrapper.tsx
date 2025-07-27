@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Calendar, User, Clock, BookOpen, TrendingUp, Lightbulb } from 'lucide-react'
 import Link from 'next/link'
 import { BlogPost } from '@/lib/notion'
+import { formatDate } from '@/lib/utils'
 
 // Icon mapping for categories
 const categoryIcons: { [key: string]: any } = {
@@ -76,7 +77,7 @@ export default function BlogClientWrapper({ blogPosts }: BlogClientWrapperProps)
                       </div>
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
-                        {new Date(post.publishedDate).toLocaleDateString()}
+                        {formatDate(post.publishedDate)}
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
