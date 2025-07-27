@@ -21,6 +21,37 @@ export interface BlogPost {
   pageName: string
 }
 
+// Helper function to extract text from different field types
+function extractText(property: any): string {
+  if (!property) return ''
+  
+  // Handle title field
+  if (property.type === 'title' && property.title) {
+    return property.title[0]?.plain_text || ''
+  }
+  
+  // Handle rich_text field
+  if (property.type === 'rich_text' && property.rich_text) {
+    return property.rich_text[0]?.plain_text || ''
+  }
+  
+  return ''
+}
+
+// Helper function to extract image URL
+function extractImageUrl(property: any): string {
+  if (!property || property.type !== 'files' || !property.files || property.files.length === 0) {
+    return '/images/placeholder.jpg'
+  }
+  
+  const file = property.files[0]
+  if (file.type === 'file' && file.file) {
+    return file.file.url
+  }
+  
+  return '/images/placeholder.jpg'
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     // Check if environment variables are set
@@ -57,9 +88,12 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     return response.results.map((page: any) => {
       const properties = page.properties
       
+      const title = extractText(properties['Page Name'])
+      const image = extractImageUrl(properties['Image'])
+      
       return {
         id: page.id,
-        title: properties['Page Name']?.title?.[0]?.plain_text || '',
+        title: title,
         slug: properties['Slug']?.rich_text?.[0]?.plain_text || '',
         excerpt: properties['Excerpt']?.rich_text?.[0]?.plain_text || '',
         content: properties['Content']?.rich_text?.[0]?.plain_text || '',
@@ -67,9 +101,9 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         category: properties['Category']?.select?.name || '',
         publishedDate: properties['Published Date']?.date?.start || '',
         readTime: properties['Read Time']?.rich_text?.[0]?.plain_text || '',
-        image: properties['Image']?.files?.[0]?.file?.url || '/images/placeholder.jpg',
+        image: image,
         status: properties['Status']?.select?.name || 'Draft',
-        pageName: properties['Page Name']?.title?.[0]?.plain_text || ''
+        pageName: title
       }
     })
   } catch (error) {
@@ -124,9 +158,12 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     const page = response.results[0] as any
     const properties = page.properties
 
+    const title = extractText(properties['Page Name'])
+    const image = extractImageUrl(properties['Image'])
+
     return {
       id: page.id,
-      title: properties['Page Name']?.title?.[0]?.plain_text || '',
+      title: title,
       slug: properties['Slug']?.rich_text?.[0]?.plain_text || '',
       excerpt: properties['Excerpt']?.rich_text?.[0]?.plain_text || '',
       content: properties['Content']?.rich_text?.[0]?.plain_text || '',
@@ -134,9 +171,9 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       category: properties['Category']?.select?.name || '',
       publishedDate: properties['Published Date']?.date?.start || '',
       readTime: properties['Read Time']?.rich_text?.[0]?.plain_text || '',
-      image: properties['Image']?.files?.[0]?.file?.url || '/images/placeholder.jpg',
+      image: image,
       status: properties['Status']?.select?.name || 'Draft',
-      pageName: properties['Page Name']?.title?.[0]?.plain_text || ''
+      pageName: title
     }
   } catch (error) {
     console.error('Error fetching blog post:', error)
