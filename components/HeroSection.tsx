@@ -7,17 +7,34 @@ import { Play } from 'lucide-react'
 const HeroSection = () => {
   const [current, setCurrent] = useState(0)
   const rotatingTexts = [
-    "వ్యవసాయ భవిష్యత్తు, ఈ రోజు.",
-    "Agriculture's Future, Today.",
-    "El Futuro de la Agricultura, Hoy.",
-    "L'Avenir de l'Agriculture, Aujourd'hui.",
-    "农业的未来，就在今天。"
+    // Indian Languages
+    "వ్యవసాయ భవిష్యత్తు, ఈ రోజు.", // Telugu
+    "कृषि का भविष्य, आज।", // Hindi
+    "விவசாயத்தின் எதிர்காலம், இன்று.", // Tamil
+    "കാർഷിക ഭാവി, ഇന്ന്.", // Malayalam
+    "ಕೃಷಿಯ ಭವಿಷ್ಯ, ಇಂದು.", // Kannada
+    "કૃષિનું ભવિષ્ય, આજે.", // Gujarati
+    "কৃষির ভবিষ্যৎ, আজ।", // Bengali
+    "कृषीचे भविष्य, आज.", // Marathi
+    "ਖੇਤੀਬਾੜੀ ਦਾ ਭਵਿੱਖ, ਅੱਜ।", // Punjabi
+    "ସମ୍ବଲପୁରୀ କୃଷିର ଭବିଷ୍ୟତ, ଆଜି।", // Odia
+    // International Languages
+    "Agriculture's Future, Today.", // English
+    "El Futuro de la Agricultura, Hoy.", // Spanish
+    "L'Avenir de l'Agriculture, Aujourd'hui.", // French
+    "农业的未来，就在今天。", // Chinese
+    "Die Zukunft der Landwirtschaft, Heute.", // German
+    "Il Futuro dell'Agricoltura, Oggi.", // Italian
+    "未来の農業、今日。", // Japanese
+    "미래의 농업, 오늘.", // Korean
+    "مستقبل الزراعة، اليوم.", // Arabic
+    "O Futuro da Agricultura, Hoje." // Portuguese
   ]
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % rotatingTexts.length)
-    }, 3000)
+    }, 2500) // Slightly faster rotation for more languages
     return () => clearInterval(interval)
   }, [rotatingTexts.length])
 
@@ -57,11 +74,15 @@ const HeroSection = () => {
           <AnimatePresence mode="wait">
             <motion.span
               key={current}
-              className="absolute w-full text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-emerald-300/90 text-center px-4 flex items-center justify-center"
+              className="absolute w-full text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-emerald-300/90 text-center px-4 flex items-center justify-center leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6 }}
+              style={{ 
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                maxWidth: '90vw'
+              }}
             >
               {rotatingTexts[current]}
             </motion.span>
