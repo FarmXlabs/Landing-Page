@@ -80,29 +80,6 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
     console.log('Fetching blog posts from Notion...')
     
-    // First, let's get ALL posts to see what's available
-    const allResponse = await notion.databases.query({
-      database_id: databaseId,
-      sorts: [
-        {
-          property: 'Published Date',
-          direction: 'descending'
-        }
-      ]
-    })
-    
-    console.log(`Total posts in database: ${allResponse.results.length}`)
-    
-    // Log all posts and their status
-    allResponse.results.forEach((page: any, index: number) => {
-      const properties = page.properties
-      const status = properties['Status']?.select?.name || 'No Status'
-      const title = extractText(properties['Page Name'])
-      console.log(`Post ${index + 1}: "${title}" - Status: "${status}"`)
-    })
-    
-    // Get all posts and filter them in code instead of using Notion filter
-    console.log('Getting all posts and filtering in code...')
     const response = await notion.databases.query({
       database_id: databaseId,
       sorts: [
@@ -113,25 +90,15 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       ]
     })
     
+    console.log(`Total posts in database: ${response.results.length}`)
+    
     // Filter posts in code to handle any Status field variations
     const publishedPosts = response.results.filter((page: any) => {
       const status = page.properties['Status']?.select?.name || ''
-      const isPublished = status.toLowerCase().includes('published')
-      console.log(`Post "${extractText(page.properties['Page Name'])}" - Status: "${status}" - Is Published: ${isPublished}`)
-      return isPublished
+      return status.toLowerCase().includes('published')
     })
     
-    console.log(`Found ${publishedPosts.length} published blog posts after filtering`)
-
-    console.log(`Found ${publishedPosts.length} published blog posts after filtering`)
-    
-    // Debug: Show which posts were found by the filter
-    publishedPosts.forEach((page: any, index: number) => {
-      const properties = page.properties
-      const status = properties['Status']?.select?.name || 'No Status'
-      const title = extractText(properties['Page Name'])
-      console.log(`Filtered post ${index + 1}: "${title}" - Status: "${status}"`)
-    })
+    console.log(`Found ${publishedPosts.length} published blog posts`)
 
     return publishedPosts.map((page: any) => {
       const properties = page.properties
