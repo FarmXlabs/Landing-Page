@@ -1,61 +1,70 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { Calendar, User, Clock, ArrowLeft, Share2 } from 'lucide-react'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { BlogClientWrapper, BlogContentWrapper } from '@/components/BlogClientWrapper'
-import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/notion'
 
-interface BlogPostPageProps {
-  params: {
-    slug: string
-  }
+// Sample blog post data - this would come from your CMS
+const blogPost = {
+  id: 1,
+  title: "The Future of Autonomous Agriculture in India",
+  excerpt: "Discover how AI and robotics are revolutionizing farming practices across India, from precision agriculture to sustainable crop management.",
+  content: `
+    <p class="mb-6 text-lg leading-relaxed text-slate-700">
+      The agricultural landscape in India is undergoing a revolutionary transformation, driven by cutting-edge technology and innovative solutions. As the world's largest producer of many agricultural commodities, India's adoption of autonomous farming technologies has the potential to reshape global food production.
+    </p>
+    <h2 class="text-2xl font-bold text-slate-900 mb-4 mt-8">The Current State of Indian Agriculture</h2>
+    <p class="mb-6 text-lg leading-relaxed text-slate-700">
+      Traditional farming methods have served India for centuries, but the challenges of climate change, labor shortages, and the need for increased productivity are pushing farmers to embrace new technologies. Autonomous agriculture represents the next frontier in farming innovation.
+    </p>
+    <h2 class="text-2xl font-bold text-slate-900 mb-4 mt-8">Key Technologies Driving Change</h2>
+    <p class="mb-6 text-lg leading-relaxed text-slate-700">
+      From AI-powered crop monitoring to autonomous tractors and drones for precision spraying, the integration of technology is creating a more efficient and sustainable farming ecosystem. These innovations are not just about automation—they're about making farming more intelligent and data-driven.
+    </p>
+    <h2 class="text-2xl font-bold text-slate-900 mb-4 mt-8">The Road Ahead</h2>
+    <p class="mb-6 text-lg leading-relaxed text-slate-700">
+      As we look to the future, the potential for autonomous agriculture in India is limitless. With the right infrastructure, education, and support, Indian farmers can lead the world in sustainable, technology-driven agriculture.
+    </p>
+  `,
+  author: "FarmXLabs Team",
+  date: "2024-01-15",
+  readTime: "5 min read",
+  category: "Technology",
+  image: "/images/blog-1.jpg",
+  tags: ["Agriculture", "Technology", "AI", "Innovation"]
 }
 
-export async function generateStaticParams() {
-  const slugs = await getAllBlogSlugs()
-  return slugs.map((slug) => ({
-    slug: slug,
-  }))
-}
-
-async function BlogPostPage({ params }: BlogPostPageProps) {
-  const blogPost = await getBlogPostBySlug(params.slug)
-
-  if (!blogPost) {
-    notFound()
-  }
-
+const BlogPostPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
-      {/* Back Button */}
-      <div className="pt-24 pb-6">
+      {/* Blog Header Section */}
+      <div className="bg-gradient-to-b from-emerald-50 to-white pt-24 pb-12 border-b border-slate-100">
         <div className="container mx-auto px-6">
-          <Link href="/blog" className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-200 hover:bg-emerald-100 transition-colors shadow-md">
-            <ArrowLeft className="w-6 h-6 text-emerald-700" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Featured Image */}
-      <div className="w-full bg-white">
-        <div className="container mx-auto px-6">
-          <img
-            src={blogPost.image}
-            alt={blogPost.title}
-            className="w-full h-96 object-cover rounded-2xl shadow-2xl"
-          />
-        </div>
-      </div>
-
-      {/* Blog Content */}
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl">
-          <BlogClientWrapper>
-            {/* Blog Header */}
-            <div className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Back Button - Improved Design */}
+            <div className="flex items-center mb-6">
+              <Link href="/blog">
+                <motion.div 
+                  className="group relative inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300 hover:bg-emerald-50 hover:border-emerald-200"
+                  whileHover={{ scale: 1.05, x: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div className="relative">
+                    <ArrowLeft className="w-4 h-4 text-emerald-600 group-hover:text-emerald-700 transition-colors" />
+                    <div className="absolute inset-0 bg-emerald-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-0 group-hover:scale-150"></div>
+                  </div>
+                  <span className="text-sm font-medium text-slate-700 group-hover:text-emerald-700 transition-colors">Back to Blog</span>
+                </motion.div>
+              </Link>
+            </div>
+            <div className="max-w-4xl mx-auto text-center">
               <span className="inline-block bg-emerald-100 text-emerald-700 text-sm font-semibold px-4 py-2 rounded-full mb-4">
                 {blogPost.category}
               </span>
@@ -65,7 +74,7 @@ async function BlogPostPage({ params }: BlogPostPageProps) {
               <p className="text-xl text-slate-600 mb-8 leading-relaxed">
                 {blogPost.excerpt}
               </p>
-              <div className="flex flex-col md:flex-row md:items-center gap-4 text-sm text-slate-500 mb-8">
+              <div className="flex flex-col md:flex-row md:justify-center md:items-center gap-4 text-sm text-slate-500 mb-8">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   <span className="font-medium">{blogPost.author}</span>
@@ -78,39 +87,54 @@ async function BlogPostPage({ params }: BlogPostPageProps) {
                   <Clock className="w-4 h-4" />
                   {blogPost.readTime}
                 </div>
-                <button className="flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors">
+                <button className="flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors ml-0 md:ml-4">
                   <Share2 className="w-4 h-4" />
                   Share
                 </button>
               </div>
             </div>
-
+          </motion.div>
+        </div>
+      </div>
+      {/* Featured Image */}
+      <div className="w-full bg-white flex justify-center">
+        <div className="w-full max-w-4xl px-4 md:px-0 -mt-16 relative z-10">
+          <img
+            src={blogPost.image}
+            alt={blogPost.title}
+            className="w-full h-96 object-cover rounded-2xl shadow-2xl border-4 border-white"
+          />
+        </div>
+      </div>
+      {/* Blog Content */}
+      <div className="container mx-auto px-6 py-16">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="prose prose-lg max-w-none"
+          >
             {/* Blog Content */}
-            <BlogContentWrapper delay={0.2} className="prose prose-lg max-w-none">
-              <div 
-                className="text-lg leading-relaxed text-slate-700 whitespace-pre-wrap"
-              >
-                {blogPost.content}
+            <div 
+              className="text-lg leading-relaxed text-slate-700"
+              dangerouslySetInnerHTML={{ __html: blogPost.content }}
+            />
+            {/* Tags */}
+            <div className="mt-12 pt-8 border-t border-slate-200">
+              <h3 className="text-lg font-semibold text-slate-900 mb-4">Tags:</h3>
+              <div className="flex flex-wrap gap-2">
+                {blogPost.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm hover:bg-emerald-100 hover:text-emerald-700 transition-colors cursor-pointer"
+                  >
+                    #{tag}
+                  </span>
+                ))}
               </div>
-              
-              {/* Tags */}
-              {blogPost.tags.length > 0 && (
-                <div className="mt-12 pt-8 border-t border-slate-200">
-                  <h3 className="text-lg font-semibold text-slate-900 mb-4">Tags:</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {blogPost.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm hover:bg-emerald-100 hover:text-emerald-700 transition-colors cursor-pointer"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </BlogContentWrapper>
-          </BlogClientWrapper>
+            </div>
+          </motion.div>
         </div>
       </div>
       <Footer />
