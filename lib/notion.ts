@@ -40,37 +40,28 @@ function extractText(property: any): string {
 
 // Helper function to extract image URL
 function extractImageUrl(property: any): string {
-  console.log('Extracting image from property:', JSON.stringify(property, null, 2))
-  
   if (!property) {
-    console.log('No image property found, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   if (property.type !== 'files') {
-    console.log(`Property type is ${property.type}, not files, using placeholder`)
     return '/images/placeholder.jpg'
   }
   
   if (!property.files || property.files.length === 0) {
-    console.log('No files in property, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   const file = property.files[0]
-  console.log('File object:', JSON.stringify(file, null, 2))
   
   if (file.type === 'file' && file.file) {
-    console.log('Extracted image URL:', file.file.url)
     return file.file.url
   }
   
   if (file.type === 'external' && file.external) {
-    console.log('Extracted external image URL:', file.external.url)
     return file.external.url
   }
   
-  console.log('File type or structure not as expected, using placeholder')
   return '/images/placeholder.jpg'
 }
 
@@ -110,16 +101,15 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       console.log(`Post ${index + 1}: "${title}" - Status: "${status}"`)
     })
     
-    // Now filter for published posts (temporarily get all posts to debug)
+    // Now filter for published posts
     const response = await notion.databases.query({
       database_id: databaseId,
-      // Temporarily removing filter to see all posts
-      // filter: {
-      //   property: 'Status',
-      //   select: {
-      //     equals: 'Published'
-      //   }
-      // },
+      filter: {
+        property: 'Status',
+        select: {
+          equals: 'Published'
+        }
+      },
       sorts: [
         {
           property: 'Published Date',
@@ -133,13 +123,10 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     return response.results.map((page: any) => {
       const properties = page.properties
       
-      console.log(`\nProcessing post: ${page.id}`)
-      console.log('Available properties:', Object.keys(properties))
-      
       const title = extractText(properties['Page Name'])
       const image = extractImageUrl(properties['Image'])
       
-      const blogPost = {
+      return {
         id: page.id,
         title: title,
         slug: properties['Slug']?.rich_text?.[0]?.plain_text || '',
@@ -153,17 +140,6 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         status: properties['Status']?.select?.name || 'Draft',
         pageName: title
       }
-      
-      console.log('Mapped blog post:', {
-        title: blogPost.title,
-        slug: blogPost.slug,
-        status: blogPost.status,
-        image: blogPost.image,
-        author: blogPost.author,
-        category: blogPost.category
-      })
-      
-      return blogPost
     })
   } catch (error) {
     console.error('Error fetching blog posts:', error)
