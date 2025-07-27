@@ -40,28 +40,37 @@ function extractText(property: any): string {
 
 // Helper function to extract image URL
 function extractImageUrl(property: any): string {
+  console.log('Extracting image from property:', JSON.stringify(property, null, 2))
+  
   if (!property) {
+    console.log('No image property found, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   if (property.type !== 'files') {
+    console.log(`Property type is ${property.type}, not files, using placeholder`)
     return '/images/placeholder.jpg'
   }
   
   if (!property.files || property.files.length === 0) {
+    console.log('No files in property, using placeholder')
     return '/images/placeholder.jpg'
   }
   
   const file = property.files[0]
+  console.log('File object:', JSON.stringify(file, null, 2))
   
   if (file.type === 'file' && file.file) {
+    console.log('Extracted image URL:', file.file.url)
     return file.file.url
   }
   
   if (file.type === 'external' && file.external) {
+    console.log('Extracted external image URL:', file.external.url)
     return file.external.url
   }
   
+  console.log('File type or structure not as expected, using placeholder')
   return '/images/placeholder.jpg'
 }
 
@@ -175,13 +184,16 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 
     const title = extractText(properties['Page Name'])
     const image = extractImageUrl(properties['Image'])
+    
+    // Fetch the actual page content from Notion blocks
+    const pageContent = await getPageContent(page.id)
 
     return {
       id: page.id,
       title: title,
       slug: properties['Slug']?.rich_text?.[0]?.plain_text || '',
       excerpt: properties['Excerpt']?.rich_text?.[0]?.plain_text || '',
-      content: properties['Content']?.rich_text?.[0]?.plain_text || '',
+      content: pageContent || properties['Content']?.rich_text?.[0]?.plain_text || '',
       author: properties['Author']?.rich_text?.[0]?.plain_text || '',
       category: properties['Category']?.select?.name || '',
       publishedDate: properties['Published Date']?.date?.start || '',
@@ -196,6 +208,49 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       console.error('Error details:', error.message)
     }
     return null
+  }
+}
+
+// Helper function to fetch page content from Notion
+async function getPageContent(pageId: string): Promise<string> {
+  try {
+    console.log(`Fetching page content for page ID: ${pageId}`)
+    
+    const response = await notion.blocks.children.list({
+      block_id: pageId,
+    })
+    
+    console.log(`Found ${response.results.length} blocks in page`)
+    
+    // Convert blocks to markdown content
+    let content = ''
+    for (const block of response.results as any[]) {
+      if (block.type === 'paragraph' && block.paragraph) {
+        const text = block.paragraph.rich_text.map((text: any) => text.plain_text).join('')
+        content += text + '\n\n'
+      } else if (block.type === 'heading_1' && block.heading_1) {
+        const text = block.heading_1.rich_text.map((text: any) => text.plain_text).join('')
+        content += `# ${text}\n\n`
+      } else if (block.type === 'heading_2' && block.heading_2) {
+        const text = block.heading_2.rich_text.map((text: any) => text.plain_text).join('')
+        content += `## ${text}\n\n`
+      } else if (block.type === 'heading_3' && block.heading_3) {
+        const text = block.heading_3.rich_text.map((text: any) => text.plain_text).join('')
+        content += `### ${text}\n\n`
+      } else if (block.type === 'bulleted_list_item' && block.bulleted_list_item) {
+        const text = block.bulleted_list_item.rich_text.map((text: any) => text.plain_text).join('')
+        content += `- ${text}\n`
+      } else if (block.type === 'numbered_list_item' && block.numbered_list_item) {
+        const text = block.numbered_list_item.rich_text.map((text: any) => text.plain_text).join('')
+        content += `1. ${text}\n`
+      }
+    }
+    
+    console.log('Generated content length:', content.length)
+    return content.trim()
+  } catch (error) {
+    console.error('Error fetching page content:', error)
+    return ''
   }
 }
 
@@ -222,7 +277,7 @@ export async function getAllBlogSlugs(): Promise<string[]> {
       }
     })
 
-    return response.results.map((page: any) => 
+    return response.results.map((page: any) =>
       page.properties['Slug']?.rich_text?.[0]?.plain_text || ''
     ).filter(Boolean)
   } catch (error) {
