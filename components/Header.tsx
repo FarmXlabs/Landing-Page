@@ -35,10 +35,10 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center h-full group">
             <img
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt="FarmXLabs Logo"
-              className="h-9 md:h-12 w-auto transition-transform group-hover:scale-105"
-              style={{ maxWidth: '200px' }}
+              className="h-10 md:h-14 w-auto transition-transform group-hover:scale-105"
+              style={{ maxWidth: '220px' }}
             />
           </Link>
 

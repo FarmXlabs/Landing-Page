@@ -69,10 +69,10 @@ const Footer = () => {
             className="flex flex-col items-start"
           >
             <img
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt="FarmXLabs Logo"
-              className="h-10 md:h-12 w-auto mb-4"
-              style={{ maxWidth: '200px' }}
+              className="h-12 md:h-14 w-auto mb-4"
+              style={{ maxWidth: '220px' }}
             />
             <div className="space-y-3">
               <div className="flex items-center gap-3">
